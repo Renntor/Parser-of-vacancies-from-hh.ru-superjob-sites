@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "employers parser"
+version = "0.1.0"
+description = ""
+authors = ["Denis <denis30510@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+ujson = "^5.8.0"
+httpx = "^0.24.1"
+psycopg2-binary = "^2.9.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
