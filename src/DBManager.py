@@ -15,7 +15,8 @@ class DBManager:
         '''
         with psycopg2.connect(host='localhost', database=self.database, user=self.user, password=self.password) as conn:
             with conn.cursor() as cur:
-                cur.execute('SELECT DISTINCT(employer_id), COUNT(*) FROM vacancy GROUP BY employer_id')
+                cur.execute("""SELECT employers.employer_name, COUNT(vacancy.*) FROM employers
+                                INNER JOIN vacancy USING(employer_id) GROUP BY employers.employer_name""")
                 rows = cur.fetchall()
         return rows
 
@@ -26,8 +27,11 @@ class DBManager:
         '''
         with psycopg2.connect(host='localhost', database=self.database, user=self.user, password=self.password) as conn:
             with conn.cursor() as cur:
-                cur.execute()
-        pass
+                cur.execute("""SELECT employers.employer_name, vacancy_name, salary_from, salary_to, url
+                                FROM vacancy INNER JOIN employers USING(employer_id)""")
+                rows = cur.fetchall()
+        return rows
+
 
     def get_avg_salary(self) -> list:
         """
@@ -47,15 +51,18 @@ class DBManager:
         '''
         with psycopg2.connect(host='localhost', database=self.database, user=self.user, password=self.password) as conn:
             with conn.cursor() as cur:
-                pass
-        pass
-
-    def get_vacancies_with_keyword(self):
+                cur.execute("SELECT * FROM vacancy\
+                 WHERE (SELECT AVG(salary_from+salary_to) FROM vacancy)< salary_from+salary_to")
+                rows = cur.fetchall()
+        return rows
+    def get_vacancies_with_keyword(self, name) -> list:
         '''
         Получает список всех вакансий, в названии которых содержатся переданные в метод слова, например “python”.
         :return:
         '''
         with psycopg2.connect(host='localhost', database=self.database, user=self.user, password=self.password) as conn:
             with conn.cursor() as cur:
-                pass
-        pass
+                cur.execute(f"SELECT * FROM vacancy WHERE vacancy_name LIKE '%{name}%'")
+                rows = cur.fetchall()
+        return rows
+

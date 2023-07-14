@@ -23,5 +23,5 @@ CREATE TABLE vacancy
     salary_to int DEFAULT 0,
 
     CONSTRAINT pk_vacancy_vacancy_id PRIMARY KEY (vacancy_id),
-    CONSTRAINT fk_pk_employers_employer_id FOREIGN KEY (employer_id) REFERENCES employers(employer_id)
+    CONSTRAINT fk_employers_employer_id FOREIGN KEY (employer_id) REFERENCES employers(employer_id)
 );
