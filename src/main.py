@@ -47,3 +47,6 @@ if __name__ == '__main__':
             break
         else:
             print('Неверные данные!')
+
+    dbmanager.cur.close()
+    dbmanager.conn.close()
